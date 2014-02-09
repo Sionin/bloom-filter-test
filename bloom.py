@@ -4,15 +4,12 @@ from random import shuffle
 from bitset import Bitset
 
 PRIMES = [13, 17, 19, 23, 29, 31, 37,
-          #41, 43, 47, 53, 59, 61, 67,
-          #71, 73, 79, 83, 89, 97, 101,
-          #103, 107, 109, 113, 127,
-          #131, 137, 139, 149, 151, 157
+          41, 43, 47, 53, 59, 61, 67,
+          71, 73, 79, 83, 89, 97, 101,
+          103, 107, 109, 113, 127,
+          131, 137, 139, 149, 151, 157
 ]
 shuffle(PRIMES)
-print PRIMES
-
-__author__ = 'sergei'
 
 
 class BloomFilter:
@@ -42,6 +39,8 @@ class BloomFilter:
         contains = True
         for h in self.hashs:
             contains = contains & self.bitset[h(item)]
+            if not contains:
+                break
         return contains
 
     def add(self, item):

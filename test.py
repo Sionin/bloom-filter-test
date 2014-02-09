@@ -6,7 +6,7 @@ import string
 from bloom import BloomFilter
 
 MAX_SIZE = 100
-ERROR_PROBABILITY = 0.0000001
+ERROR_PROBABILITY = 0.0001
 
 
 def generateValue(size=6, chars=string.ascii_uppercase):
