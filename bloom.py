@@ -1,6 +1,16 @@
 #!/usr/bin/env python
+from random import shuffle
 
 from bitset import Bitset
+
+PRIMES = [13, 17, 19, 23, 29, 31, 37,
+          #41, 43, 47, 53, 59, 61, 67,
+          #71, 73, 79, 83, 89, 97, 101,
+          #103, 107, 109, 113, 127,
+          #131, 137, 139, 149, 151, 157
+]
+shuffle(PRIMES)
+print PRIMES
 
 __author__ = 'sergei'
 
@@ -11,34 +21,18 @@ class BloomFilter:
         for c in string:
             h = (prime * h + ord(c)) & 0xFFFFFFFF
         bitset_length = (((h + 0x80000000) & 0xFFFFFFFF) - 0x80000000)
-        return bitset_length % int(self.bitset.length)
+        return bitset_length % self.bitset.length
+
+    def hashFunctions(self, primes):
+        result = list()
+        for p in primes:
+            print "lambda x: self.hash(x, ", p, ")"
+            result.append(lambda x: self.hash(x, p))
+        return result
 
     def __init__(self, size, hashCount=0):
         self.bitset = Bitset(0, size)
-        #2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157
-        hashFunctions = [
-            (lambda x: self.hash(x, 13))
-            , (lambda x: self.hash(x, 17))
-            , (lambda x: self.hash(x, 19))
-            , (lambda x: self.hash(x, 23))
-            , (lambda x: self.hash(x, 29))
-            , (lambda x: self.hash(x, 31))
-            , (lambda x: self.hash(x, 37))
-            , (lambda x: self.hash(x, 41))
-            , (lambda x: self.hash(x, 47))
-            , (lambda x: self.hash(x, 53))
-            , (lambda x: self.hash(x, 59))
-            , (lambda x: self.hash(x, 61))
-            , (lambda x: self.hash(x, 67))
-            , (lambda x: self.hash(x, 71))
-            , (lambda x: self.hash(x, 73))
-            , (lambda x: self.hash(x, 79))
-            , (lambda x: self.hash(x, 83))
-            , (lambda x: self.hash(x, 89))
-            , (lambda x: self.hash(x, 97))
-            , (lambda x: self.hash(x, 101))
-        ]
-        self.hashs = hashFunctions[0:hashCount or len(hashFunctions)]
+        self.hashs = self.hashFunctions(PRIMES[0:hashCount or len(PRIMES)])
         pass
 
     def __str__(self):

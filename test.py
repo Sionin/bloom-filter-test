@@ -5,8 +5,8 @@ import string
 
 from bloom import BloomFilter
 
-MAX_SIZE = 10000
-ERROR_PROBABILITY = 0.0001
+MAX_SIZE = 100
+ERROR_PROBABILITY = 0.0000001
 
 
 def generateValue(size=6, chars=string.ascii_uppercase):
@@ -36,6 +36,7 @@ while not falsePositive:
     for i in range(MAX_SIZE / 100):
         bloom.add(generateValue())
         inserted += 1
+    print(bloom)
 
     for i in range(MAX_SIZE / 100):
         falseValue = generateOther()
